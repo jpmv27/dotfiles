@@ -5,10 +5,10 @@ fi
 
 # User-specific environment and startup programs
 if [ -d ~/sbin ]; then
-    export PATH=${HOME}sbin:$PATH
+    export PATH=$HOME/sbin:$PATH
 fi
 if [ -d ~/bin ]; then
-    export PATH=${HOME}bin:$PATH
+    export PATH=$HOME/bin:$PATH
 fi
 
 export LANG="C.UTF-8"
