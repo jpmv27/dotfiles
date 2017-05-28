@@ -1,3 +1,8 @@
+# Do this first, required by .bashrc
+if [ -d ~/opt/git-aware-prompt ]; then
+    export GITAWAREPROMPT=~/opt/git-aware-prompt
+fi
+
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
     . ~/.bashrc
@@ -22,10 +27,6 @@ export EDITOR
 
 if [[ -n "$SSH_CLIENT" ]]; then
     export DISPLAY=$(echo "$SSH_CLIENT" | cut -d " " -f 1):0
-fi
-
-if [ -d ~/opt/git-aware-prompt ]; then
-    export GITAWAREPROMPT=~/opt/git-aware-prompt
 fi
 
 if [ -f ~/.bash_profile.local ]; then
