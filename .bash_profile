@@ -24,6 +24,10 @@ if [[ -n "$SSH_CLIENT" ]]; then
     export DISPLAY=$(echo "$SSH_CLIENT" | cut -d " " -f 1):0
 fi
 
+if [ -d ~/opt/git-aware-prompt ]; then
+    export GITAWAREPROMPT=~/opt/git-aware-prompt
+fi
+
 if [ -f ~/.bash_profile.local ]; then
     . ~/.bash_profile.local
 fi

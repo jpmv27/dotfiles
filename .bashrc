@@ -11,9 +11,10 @@ fi
 alias vi='vim'
 alias grephistory='history | grep'
 
-export GITAWAREPROMPT=~/opt/git-aware-prompt-master
-source "${GITAWAREPROMPT}/main.sh"
-export PS1="[\u@\h \W \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]]\$ "
+if [ -n "$GITAWAREPROMPT" ]; then
+    . "${GITAWAREPROMPT}/main.sh"
+    export PS1="[\u@\h \W \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]]\$ "
+fi
 
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
