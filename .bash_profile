@@ -14,7 +14,7 @@ fi
 export LANG="C.UTF-8"
 export LC_ALL="C.UTF-8"
 
-EDITOR=$(alias vim 2> /dev/null)
+EDITOR=$(alias vim 2> /dev/null | cut -d "'" -f 2)
 if [ -z "$EDITOR" ]; then
     EDITOR=vim
 fi
