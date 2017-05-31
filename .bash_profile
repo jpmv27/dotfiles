@@ -20,7 +20,7 @@ export LANG="C.UTF-8"
 export LC_ALL="C.UTF-8"
 export NCURSES_NO_UTF8_ACS=1
 
-export HISTCONTROL=erasedups:ignorespace
+export HISTCONTROL=ignoreboth
 # Negative value only supported in bash 4.3 and later
 export HISTSIZE=10000
 export HISTFILESIZE=10000
