@@ -11,6 +11,9 @@ fi
 alias vi='vim'
 alias grephistory='history | grep'
 
+shopt -s histappend histreedit
+export PROMPT_COMMAND="history -a; history -r; $PROMPT_COMMAND"
+
 if [ -n "$GITAWAREPROMPT" ]; then
     . "${GITAWAREPROMPT}/main.sh"
     export PS1="[\u@\h \W \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]]\$ "
