@@ -12,7 +12,6 @@ alias vi='vim'
 alias grephistory='history | grep'
 
 shopt -s histappend histreedit
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 if [ -n "$GITAWAREPROMPT" ]; then
     . "${GITAWAREPROMPT}/main.sh"
