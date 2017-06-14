@@ -11,7 +11,7 @@ fi
 alias vi='vim'
 alias grephistory='history | grep'
 
-shopt -s histappend histreedit
+shopt -s histappend histreedit histverify
 
 if [ -n "$GITAWAREPROMPT" ]; then
     . "${GITAWAREPROMPT}/main.sh"
