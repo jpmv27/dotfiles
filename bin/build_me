@@ -6,7 +6,7 @@ set -o nounset
 
 path="$(pwd)"
 
-until [[ -z "$path" || -x "$(readlink -f ".build_me/$path/build")" ]]; do
+until [[ -z "$path" || -x "$(readlink -f "~/.build_me/$path/build")" ]]; do
     path="${path%/*}"
 done
 
