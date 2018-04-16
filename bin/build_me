@@ -4,9 +4,11 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+readonly BUILD_ME_CONFIG="$HOME/.build_me"
+
 path="$(pwd)"
 
-until [[ -z "$path" || -x "$(readlink -f "~/.build_me/$path/build")" ]]; do
+until [[ -z "$path" || -x "$(readlink -f "$BUILD_ME_CONFIG/$path/build")" ]]; do
     path="${path%/*}"
 done
 
@@ -16,5 +18,5 @@ if [ -z "$path" ]; then
 fi
 
 cd "$path"
-".build_me/$path/build" "$@"
+"$BUILD_ME_CONFIG/$path/build" "$@"
 
