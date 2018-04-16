@@ -1,0 +1,20 @@
+#!/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+path="$(pwd)"
+
+until [[ -z "$path" || -x "$(readlink -f ".build_me/$path/build")" ]]; do
+    path="${path%/*}"
+done
+
+if [ -z "$path" ]; then
+    echo "I don't know how to build this project"
+    exit 200
+fi
+
+cd "$path"
+".build_me/$path/build" "$@"
+
