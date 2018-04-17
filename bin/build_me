@@ -6,17 +6,120 @@ set -o nounset
 
 readonly BUILD_ME_CONFIG="$HOME/.build_me"
 
-path="$(pwd)"
+usage ()
+{
+    echo "Usage: ${0##*/} [ --edit | [-- BUILD ARGUMENTS ... ] ]"
+}
 
-until [[ -z "$path" || -x "$(readlink -f "$BUILD_ME_CONFIG/$path/build")" ]]; do
-    path="${path%/*}"
+find_build_script ()
+{
+    local my_path
+
+    my_path="$(pwd)"
+
+    until [[ -z "$my_path" || -x "$(readlink -f "$BUILD_ME_CONFIG/$my_path/build")" ]]; do
+        my_path="${my_path%/*}"
+    done
+
+    if [ -z "$my_path" ]; then
+        return 1
+    fi
+
+    path="$my_path"
+    build="$BUILD_ME_CONFIG/$my_path/build"
+    return 0
+}
+
+create_build_script ()
+{
+    local my_path
+    local my_build_dir
+    local my_build
+
+    my_path="$(pwd)"
+    my_build_dir="$BUILD_ME_CONFIG/$my_path"
+    my_build="$my_build_dir/build"
+
+    mkdir -p "$my_build_dir"
+
+    cat <<-EOF > "$my_build"
+		#!/bin/env bash
+
+		set -o nounset
+		set -o errexit
+		set -o pipefail
+
+		EOF
+
+    chmod 755 "$my_build"
+
+    path="$my_path"
+    build="$my_build"
+}
+
+do_build ()
+{
+    path=
+    build=
+
+    if ! find_build_script; then
+        echo "I don't know how to build this project"
+        return 200
+    fi
+
+    cd "$path"
+    "$build" "$@"
+}
+
+do_edit ()
+{
+    path=
+    build=
+
+    if ! find_build_script; then
+        read -p "Create a build script? [y/N]: " -r
+        if [[ $REPLY =~ ^[yY]$ ]]; then
+            create_build_script
+        else
+            return 0
+        fi
+    fi
+
+    $EDITOR "$build"
+}
+
+op=build
+
+until [ $# -eq 0 ]; do
+    case $1 in
+        --edit)
+            shift
+            op=edit
+            ;;
+
+        --)
+            shift
+            break
+            ;;
+
+        *)
+            usage
+            exit 1
+            ;;
+    esac
 done
 
-if [ -z "$path" ]; then
-    echo "I don't know how to build this project"
-    exit 200
-fi
+case $op in
+    build)
+        do_build "$@"
+        ;;
 
-cd "$path"
-"$BUILD_ME_CONFIG/$path/build" "$@"
+    edit)
+        if [ $# -ne 0 ]; then
+            usage
+            exit 1
+        fi
 
+        do_edit
+        ;;
+esac
