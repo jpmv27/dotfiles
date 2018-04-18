@@ -42,13 +42,17 @@ create_build_script ()
 
     mkdir -p "$my_build_dir"
 
-    cat <<-EOF > "$my_build"
+    cat <<-"EOF" > "$my_build"
 		#!/bin/env bash
 
 		set -o nounset
 		set -o errexit
 		set -o pipefail
 
+		read -p "Install? [y/N]: " -r
+		if [[ $REPLY =~ ^[yY]$ ]]; then
+
+		fi
 		EOF
 
     chmod 755 "$my_build"
