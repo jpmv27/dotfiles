@@ -67,6 +67,8 @@ do_build ()
         return 200
     fi
 
+    export BUILDME_ORIGINAL_CWD="$(pwd)"
+
     cd "$path"
     "$build" "$@"
 }
