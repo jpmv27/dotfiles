@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 set -o errexit
 set -o pipefail
@@ -43,7 +43,7 @@ create_build_script ()
     mkdir -p "$my_build_dir"
 
     cat <<-"EOF" > "$my_build"
-		#!/bin/env bash
+		#!/usr/bin/env bash
 
 		set -o nounset
 		set -o errexit
