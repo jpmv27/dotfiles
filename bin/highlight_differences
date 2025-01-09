@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+import sys
+import termcolor
+
+def highlight_differences(previous_line, current_line):
+    """Highlight the differences between two lines using termcap (termcolor in Python)."""
+    highlighted_line = ""
+    for prev_char, curr_char in zip(previous_line, current_line):
+        if prev_char == curr_char:
+            highlighted_line += curr_char
+        else:
+            highlighted_line += termcolor.colored(curr_char, 'red', attrs=['bold'])
+    if len(current_line) > len(previous_line):
+        highlighted_line += termcolor.colored(current_line[len(previous_line):], 'red', attrs=['bold'])
+    return highlighted_line
+
+def process_file(file):
+    """Process the lines in the file-like object."""
+    previous_line = None
+    for line in file:
+        line = line.rstrip('\n')  # Strip the newline character
+        if previous_line is None:
+            print(line)
+        else:
+            highlighted = highlight_differences(previous_line, line)
+            print(highlighted)
+        previous_line = line
+
+def main():
+    """Main entry point of the program."""
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+        try:
+            with open(filename, 'r') as file:
+                process_file(file)
+        except FileNotFoundError:
+            print(f"Error: File '{filename}' not found.", file=sys.stderr)
+        except PermissionError:
+            print(f"Error: No permission to read the file '{filename}'.", file=sys.stderr)
+    else:
+        process_file(sys.stdin)
+
+if __name__ == "__main__":
+    main()
+
